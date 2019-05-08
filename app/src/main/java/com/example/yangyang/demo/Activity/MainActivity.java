@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private netHelper.AccountHelper accountHelper;
 
+    private int i = 0;
+
 
 
     ContacterAdapter adapter;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private List<Student> list = new ArrayList<>();
 
-    private List<Student> newlist;
+    private List<Student> newlist = new ArrayList<>();
 
    // private List<Student> newlist = new ArrayList<>();
 
@@ -172,13 +174,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             finish();
         }
         else if (studentResponse.getCode() == 200){
-            if (list.size() == 0){
+            if (i == 0){
                 list = studentResponse.getList();
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 adapter =  new ContacterAdapter(list);
                 recyclerView.setAdapter(adapter);
                 swipeRefreshLayout.setRefreshing(false);
+                i++;
             }
             else {
                 newlist = studentResponse.getList();

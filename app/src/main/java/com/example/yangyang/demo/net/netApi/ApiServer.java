@@ -42,11 +42,11 @@ public interface ApiServer {
 
 
 
-    @POST("/v1/call/callrecord/audio")
+    @POST("/v1/call/callrecord/Audioback")
     rx.Observable<RspLog> updateAudio(@Query("deviceId") String deviceId, @Query("fileName") String fileName);
 
 //    @Multipart
-//    @Headers({"Content-Type:audio/mp3"})
+//    @Headers({"Content-Type:Audioback/mp3"})
     @PUT()
     rx.Observable<ResponseBody> updateOss(@Url String url , @Body RequestBody fileBytes);
 //    rx.Observable<ResponseBody> updateOss(@Header("header") String header ,@Url String url ,@Part MultipartBody.Part body);

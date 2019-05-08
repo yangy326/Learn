@@ -15,6 +15,31 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"//测试包，包名后面跟一个.debug
+            manifestPlaceholders = [app_name: "外呼系统debug测试包"] // 测试包应用名改为：画啦啦测试包
+
+            minifyEnabled false
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BaseUrl", dev_server)
+
+        }
+        package_test.initWith(buildTypes.debug)
+        package_test {
+
+            applicationIdSuffix ".test"//测试包，包名后面跟一个.test
+            manifestPlaceholders = [app_name: "外呼系统测试包"] // 测试包应用名改为：画啦啦测试包
+
+            minifyEnabled false
+
+            debuggable true
+
+            matchingFallbacks = ["package_test", 'debug', 'release']
+
+            buildConfigField("String", "BaseUrl", test_server)
+
+        }
     }
 }
 

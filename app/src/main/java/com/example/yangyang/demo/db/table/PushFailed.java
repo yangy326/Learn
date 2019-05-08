@@ -1,5 +1,6 @@
 package com.example.yangyang.demo.db.table;
 
+import com.example.yangyang.demo.TestData.request.WordConstruct;
 import com.example.yangyang.demo.db.AppDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -182,5 +183,9 @@ public class PushFailed extends BaseModel {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public WordConstruct build(){
+        return new WordConstruct( userId,  userPhoneNumber, userGroup,  teacherGroup,  isConnected,  callDuration,  wordRecord,  tag);
     }
 }

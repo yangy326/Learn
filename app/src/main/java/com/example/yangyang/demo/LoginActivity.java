@@ -26,8 +26,10 @@ import com.example.yangyang.demo.Callback.OnLoadCallbackListener;
 import com.example.yangyang.demo.TestData.response.login.RspModele;
 import com.example.yangyang.demo.TestData.response.login.Data;
 import com.example.yangyang.demo.Utils.DeviceIdUtil;
+import com.example.yangyang.demo.Utils.Md5Util;
 import com.example.yangyang.demo.net.netHelper;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -251,9 +253,16 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
         String password = CMS_password.getText().toString().trim();
 
+        String finalPassword = null;
+        try {
+             finalPassword = Md5Util.md5Password(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
 
-        netHelper.AccountHelper.login(account,password,MyApp.deviceId);
+        
+        netHelper.AccountHelper.login(account,finalPassword,MyApp.deviceId);
 
     }
 

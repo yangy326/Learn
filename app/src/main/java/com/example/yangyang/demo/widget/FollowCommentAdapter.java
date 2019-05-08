@@ -209,7 +209,12 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list == null){
+            return 0;
+        }
+        else {
+            return list.size();
+        }
     }
 
     @Override

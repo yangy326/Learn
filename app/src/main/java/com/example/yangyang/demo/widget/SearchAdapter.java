@@ -191,7 +191,12 @@ Intent intent = new Intent();
 
     @Override
     public int getItemCount() {
-        return  mlist.size();
+        if (mlist == null){
+            return 0;
+        }
+        else {
+            return mlist.size();
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{

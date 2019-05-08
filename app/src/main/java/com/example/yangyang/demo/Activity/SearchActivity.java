@@ -131,49 +131,54 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Vi
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (list != null){
+            String name = s + "";
+            if (result.size()!=0){
+                result.clear();
+            }
+            if ( name.equals("")){
+                result.clear();
+            }
+
+            else if(name.charAt(0) >=48 && name.charAt(0) <=57){
+
+                Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
+                for(int i=0; i < list.size(); i++){
+
+                    String idstr = String.valueOf((list.get(i)).getId());
+                    Matcher matcher = pattern.matcher(idstr);
+                    if(matcher.find()){
+                        result.add(list.get(i));
+
+                    }
+                }
+            }
+            else {
+
+                Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
+                for(int i=0; i < list.size(); i++){
+                    Matcher matcher = pattern.matcher((list.get(i)).getName());
+                    Matcher matcher1 = pattern.matcher((list.get(i)).getGroup());
+                    if(matcher.find() || matcher1.find()){
+                        result.add(list.get(i));
+
+                    }
+
+                }
+
+            }
+
+
+
+            adapter.setMlist(result);
+            recyclerView.setAdapter(adapter);
+
+
+        }
         Log.d("edittextsss",String.valueOf(start));
         Log.d("edittextsss",String.valueOf(before));
         Log.d("edittextsss",String.valueOf(count));
-        String name = s + "";
-        if (result.size()!=0){
-            result.clear();
-        }
-        if ( name.equals("")){
-            result.clear();
-        }
 
-        else if(name.charAt(0) >=48 && name.charAt(0) <=57){
-
-            Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
-            for(int i=0; i < list.size(); i++){
-
-                String idstr = String.valueOf((list.get(i)).getId());
-                Matcher matcher = pattern.matcher(idstr);
-                if(matcher.find()){
-                    result.add(list.get(i));
-
-                }
-            }
-        }
-        else {
-
-            Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
-            for(int i=0; i < list.size(); i++){
-                Matcher matcher = pattern.matcher((list.get(i)).getName());
-                Matcher matcher1 = pattern.matcher((list.get(i)).getGroup());
-                if(matcher.find() || matcher1.find()){
-                    result.add(list.get(i));
-
-                }
-
-            }
-
-        }
-
-
-
-        adapter.setMlist(result);
-        recyclerView.setAdapter(adapter);
 
     }
 

@@ -19,6 +19,7 @@ import com.example.yangyang.demo.R;
 import com.example.yangyang.demo.TestData.response.main.Student;
 import com.example.yangyang.demo.service.MyService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -136,7 +137,13 @@ public class ContacterAdapter extends RecyclerView.Adapter<ContacterAdapter.View
 
     @Override
     public int getItemCount() {
-        return mlist.size();
+        if (mlist == null){
+            return 0;
+        }
+        else {
+            return mlist.size();
+        }
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
