@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.SearchActivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+
+            android:layout_marginLeft="18dp"
+            android:background="@drawable/main_search_layout"
+
+            android:layout_width="295dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="12dp"
+                android:layout_gravity="center"
+                android:src="@drawable/search"/>
+            <EditText
+
+                android:background="@null"
+
+                android:textColor="@color/black"
+                android:id="@+id/edit_search"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:hint="搜索"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColorHint="#FF373737"
+                android:layout_marginLeft="7dp"
+                />
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/txt_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="取消"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="4dp"
+
+            android:textColor="@color/black"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_marginRight="31dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/history">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最近"
+            android:textSize="14sp"
+            android:textColor="#FF9B9B9B"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_first"
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="22dp"
+
+                android:gravity="center"
+
+
+                android:text="课后跟进"
+                android:textSize="16sp"
+                android:textColor="#FF373737  "
+                android:background="@drawable/boder"/>
+            >
+            <TextView
+                android:layout_marginTop="22dp"
+                android:id="@+id/txt_second"
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+
+
+
+                android:text="课后跟进"
+                android:textSize="16sp"
+                android:textColor="#FF373737  "
+                android:background="@drawable/boder"/>
+            >
+            <TextView
+                android:layout_marginTop="22dp"
+                android:id="@+id/txt_third"
+                android:textSize="16sp"
+                android:textColor="#FF373737  "
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+
+                android:text="请假补课"
+                android:background="@drawable/boder"/>
+
+            <TextView
+                android:layout_marginTop="22dp"
+                android:id="@+id/txt_fourth"
+                android:textSize="16sp"
+                android:textColor="#FF373737  "
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+
+                android:background="@drawable/boder"
+                android:text="续费"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/search_recyclerview"></android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

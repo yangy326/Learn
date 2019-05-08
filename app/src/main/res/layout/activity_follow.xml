@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Activity.FollowActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/img_follow_close"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:src="@drawable/back"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="填写记录"
+            android:textSize="18sp"
+            android:textColor="#FF000000 "
+            android:layout_centerHorizontal="true"
+
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#FFF1F1F1 "/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="vertical"
+        android:background="@drawable/follow_shadow">
+
+            <TextView
+                android:id="@+id/txt_follow_studentname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="17dp"
+                android:text="宋智孝"
+                android:textSize="18sp"
+                android:textColor="#FF000000"
+                android:textFontWeight="18sp"/>
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_follow_classname"
+                android:textColor="#FFB1B1B1 "
+                android:textSize="14sp"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="依依班 1800723"/>
+            <TextView
+                android:id="@+id/txt_follow_studentid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9527"
+                android:textColor="#FFB1B1B1 "
+                android:textSize="14sp"
+                android:layout_marginLeft="12dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="23dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            >
+            <TextView
+                android:id="@+id/txt_follow_openclass"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="也开课60"
+                android:textColor="#FF757575 "
+                android:textSize="11sp"
+
+                />
+
+            <ProgressBar
+                android:id="@+id/open_progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="80dp"
+                android:layout_height="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center"
+
+
+                android:progressDrawable="@drawable/progress_shape"
+                />
+            <TextView
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:id="@+id/txt_follow_closeclass"
+
+                android:text="也开课60"
+                android:textColor="#FF757575 "
+                android:textSize="11sp"
+
+                />
+
+            <ProgressBar
+                android:id="@+id/take_progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="80dp"
+                android:layout_height="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center"
+
+
+                android:progressDrawable="@drawable/progress_shape"
+                />
+
+        </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="18dp">
+
+
+
+        <TextView
+            android:id="@+id/btn_follow_afterclass"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+
+
+            android:text="课后跟进"
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:background="@drawable/boder"/>
+        >
+        <TextView
+            android:id="@+id/btn_follow_qingjia"
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+
+            android:text="请假补课"
+            android:background="@drawable/boder"/>
+
+        <TextView
+            android:id="@+id/btn_follow_xufei"
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+
+            android:background="@drawable/boder"
+            android:text="续费"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginLeft="18dp">
+
+
+
+        <TextView
+            android:id="@+id/btn_follow_shengji"
+            android:gravity="center"
+
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+
+
+            android:text="升级"
+            android:background="@drawable/boder"/>
+        >
+        <TextView
+            android:id="@+id/btn_follow_goutong"
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:gravity="center"
+
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+
+            android:text="日常沟通"
+            android:background="@drawable/boder"/>
+
+        <TextView
+            android:gravity="center"
+
+            android:textSize="14sp"
+            android:textColor="#FF373737  "
+            android:id="@+id/btn_follow_qita"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/boder"
+            android:text="其它"/>
+
+
+    </LinearLayout>
+    <View
+        android:layout_marginTop="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#FFF5F5F5 "/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="238dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="17dp">
+
+        <EditText
+            android:id="@+id/edit_follow_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="填写跟进记录"
+            android:textColorHint="#FF757575"
+            android:textColor="#FF373737"
+
+            android:background="@drawable/boder"/>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_follow_tijiao"
+        android:layout_width="191dp"
+        android:layout_height="44dp"
+        android:textSize="18sp"
+        android:background="@drawable/boder_button"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="提交"
+        />
+
+
+
+
+
+
+
+
+</LinearLayout>

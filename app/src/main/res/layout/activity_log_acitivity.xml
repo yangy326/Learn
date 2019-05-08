@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.LogAcitivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/img_log_back"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:src="@drawable/back"
+
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跟进记录"
+            android:textSize="18sp"
+            android:textColor="#FF000000 "
+            android:layout_centerHorizontal="true"
+
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#FFF1F1F1 "/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="vertical"
+        android:background="@drawable/follow_shadow">
+
+        <TextView
+            android:id="@+id/txt_log_studentname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="17dp"
+            android:text="宋智孝"
+            android:textSize="18sp"
+            android:textColor="#FF000000"
+            android:textFontWeight="18sp"/>
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_log_classname"
+                android:textColor="#FFB1B1B1 "
+                android:textSize="14sp"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="依依班 1800723"/>
+            <TextView
+                android:id="@+id/txt_log_studentid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9527"
+                android:textColor="#FFB1B1B1 "
+                android:textSize="14sp"
+                android:layout_marginLeft="12dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="23dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            >
+            <TextView
+                android:id="@+id/txt_log_openclass"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="也开课60"
+                android:textColor="#FF757575 "
+                android:textSize="11sp"
+
+                />
+
+            <ProgressBar
+                android:id="@+id/pgbar_log_open"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="80dp"
+                android:layout_height="9dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+
+                android:max="200"
+                android:progress="135"
+                android:progressDrawable="@drawable/progress_shape" />
+            <TextView
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:id="@+id/txt_log_takeclass"
+
+                android:text="也开课60"
+                android:textColor="#FF757575 "
+                android:textSize="11sp"
+
+                />
+
+            <ProgressBar
+
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="80dp"
+                android:layout_height="9dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center"
+                android:id="@+id/pgbar_log_take"
+                android:max="200"
+                android:progress="135"
+                android:progressDrawable="@drawable/progress_shape"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="81dp"
+        android:layout_marginRight="80dp">
+        <ImageView
+            android:id="@+id/img_log_write"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:src="@drawable/pencil"/>
+        <ImageView
+            android:id="@+id/img_log_call"
+            android:layout_marginLeft="138dp"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:src="@drawable/phone"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="81dp"
+        android:layout_marginRight="80dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写跟进"
+            android:textSize="13sp"
+            android:textColor="#FF757575 "/>
+        <TextView
+            android:layout_marginLeft="134dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打电话"
+            android:textSize="13sp"
+            android:textColor="#FF757575 "/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#FFF5F5F5 "
+        android:layout_marginTop="21dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/log_recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

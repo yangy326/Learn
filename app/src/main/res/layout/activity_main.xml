@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MainActivity"
+    android:background="@color/white">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="用户列表"
+            android:gravity="center"
+
+
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:background="@drawable/main_search_layout"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="52dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="12dp"
+                android:layout_gravity="center"
+                android:src="@drawable/search"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColor="#FF9B9B9B"
+                android:layout_marginLeft="7dp"
+                />
+            
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="104dp"
+        android:id="@+id/SwipeRefreshLayout">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycleView">
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>
