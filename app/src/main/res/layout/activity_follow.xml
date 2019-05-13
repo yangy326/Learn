@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#FFF1F1F1 "/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -43,17 +43,19 @@
         android:orientation="vertical"
         android:background="@drawable/follow_shadow">
 
-            <TextView
-                android:id="@+id/txt_follow_studentname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="17dp"
-                android:text="宋智孝"
-                android:textSize="18sp"
-                android:textColor="#FF000000"
-                android:textFontWeight="18sp"/>
+        <TextView
+            android:id="@+id/txt_follow_studentname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="17dp"
+            android:text="宋智孝"
+            android:textSize="18sp"
+            android:textColor="#FF000000"
+            android:textFontWeight="18sp"/>
         <LinearLayout
+            android:id="@+id/log_name_layout"
+            android:layout_below="@id/txt_follow_studentname"
             android:layout_marginTop="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -76,7 +78,8 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_below="@id/log_name_layout"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="23dp"
             android:layout_width="wrap_content"
@@ -87,23 +90,27 @@
             <TextView
                 android:id="@+id/txt_follow_openclass"
 
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="也开课60"
+                android:text="已开课60"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
                 />
 
             <ProgressBar
-                android:id="@+id/open_progressBar"
+
+                android:id="@+id/pgbar_follow_open"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="80dp"
                 android:layout_height="9dp"
-                android:layout_marginLeft="9dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="9dp"
+                android:layout_toRightOf="@id/txt_follow_openclass"
 
-
+                android:max="200"
+                android:progress="135"
                 android:progressDrawable="@drawable/progress_shape"
                 />
             <TextView
@@ -111,31 +118,37 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="55dp"
-                android:id="@+id/txt_follow_closeclass"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/txt_follow_takeclass"
+                android:layout_toRightOf="@id/pgbar_follow_open"
 
-                android:text="也开课60"
+                android:text="已开课60"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
                 />
 
             <ProgressBar
-                android:id="@+id/take_progressBar"
+
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="80dp"
                 android:layout_height="9dp"
+                android:layout_toRightOf="@id/txt_follow_takeclass"
                 android:layout_marginLeft="9dp"
                 android:layout_gravity="center"
-
-
+                android:id="@+id/pgbar_follow_take"
+                android:max="200"
+                android:progress="135"
                 android:progressDrawable="@drawable/progress_shape"
+
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
-        </LinearLayout>
+
+    </RelativeLayout>
+
 
 
 
@@ -145,15 +158,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginLeft="18dp">
+        android:layout_gravity="center">
 
 
 
         <TextView
             android:id="@+id/btn_follow_afterclass"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
+
             android:gravity="center"
 
 
@@ -166,8 +181,9 @@
             android:id="@+id/btn_follow_qingjia"
             android:textSize="14sp"
             android:textColor="#FF373737  "
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:gravity="center"
 
@@ -178,8 +194,9 @@
             android:id="@+id/btn_follow_xufei"
             android:textSize="14sp"
             android:textColor="#FF373737  "
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
@@ -197,7 +214,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
-        android:layout_marginLeft="18dp">
+
+        android:layout_gravity="center">
 
 
 
@@ -207,8 +225,9 @@
 
             android:textSize="14sp"
             android:textColor="#FF373737  "
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
 
 
@@ -221,8 +240,9 @@
             android:textColor="#FF373737  "
             android:gravity="center"
 
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
 
             android:text="日常沟通"
@@ -234,8 +254,9 @@
             android:textSize="14sp"
             android:textColor="#FF373737  "
             android:id="@+id/btn_follow_qita"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/boder"

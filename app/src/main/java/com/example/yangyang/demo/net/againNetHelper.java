@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.yangyang.demo.MyApp;
 import com.example.yangyang.demo.TestData.request.WordConstruct;
 import com.example.yangyang.demo.TestData.response.log.RspLog;
-import com.example.yangyang.demo.TestData.response.log.WordData;
 import com.example.yangyang.demo.failback.Audioback;
 import com.example.yangyang.demo.failback.Completeback;
 import com.example.yangyang.demo.failback.Ossback;
@@ -40,7 +39,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class againNetHelper {
     private Context context;
 
-    private static Audioback audioback;
+
 
     private static Wordback wordback;
 
@@ -48,9 +47,6 @@ public class againNetHelper {
 
     private static Completeback completeback;
 
-    public static void setAudioback(Audioback audioback) {
-        againNetHelper.audioback = audioback;
-    }
 
     public static void setCompleteback(Completeback completeback){
         againNetHelper.completeback = completeback;
@@ -71,19 +67,21 @@ public class againNetHelper {
         this.context = context;
     }
 
-    public void addWord(String deviceId, final WordConstruct wordConstruct) {
+    public  void addWord(String deviceId, final WordConstruct wordConstruct){
         final byte isConnected = wordConstruct.getIsConnected();
-        final String token = context.getSharedPreferences("isCheckLogin", MODE_PRIVATE).getString("accessToken", null);
-        Log.d("accessToken", token);
+        final String token = context.getSharedPreferences("isCheckLogin",MODE_PRIVATE).getString("accessToken",null);
+        Log.d("accessToken",token);
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
+
                         Request request = original.newBuilder()
-                                .addHeader("Authorization", token)
-                                .addHeader("Content-Type", "application/json")
-                                .method(original.method(), original.body())
+                                .addHeader("Authorization",token)
+                                .addHeader("Content-Type","application/json")
+                                .method(original.method(),original.body())
                                 .build();
 
                         return chain.proceed(request);
@@ -97,26 +95,30 @@ public class againNetHelper {
 
 
         Retrofit retrofit = new Retrofit.Builder()
+
+
                 .baseUrl(MyApp.BaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
         ApiServer apiServer = retrofit.create(ApiServer.class);
-        apiServer.addWord(deviceId, wordConstruct)
+        apiServer.addWord(deviceId,wordConstruct)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
 
 
+
                     }
                 })
 
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WordData>() {
+                .subscribe(new Subscriber<RspLog>() {
                     @Override
                     public void onCompleted() {
+
 
 
                     }
@@ -129,18 +131,35 @@ public class againNetHelper {
                     }
 
                     @Override
-                    public void onNext(WordData wordData) {
-                        if (isConnected == 0) {
-                            completeback.onLoadCompleteSuccess();
-                        } else {
-                            wordback.onLoadWordSuccess(wordData);
+                    public void onNext(RspLog rspLog) {
+//                            try {
+//                               Log.d("asdfasdfda",rspLog.string());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+                        if (rspLog.getCode() == 200){
+                            if (isConnected == 0){
+                                completeback.onLoadCompleteSuccess();
+                            }
+                            else {
+                                wordback.onLoadWordSuccess(rspLog);
+                            }
                         }
-
-
+                        else {
+                            wordback.onLoadTokenFail();
+                        }
                     }
                 });
+
+
+
+
+
+
+
+
     }
-    public void updateAudio(String deviceId, String fileName) {
+  /*  public void updateAudio(String deviceId, String fileName) {
         final String token = context.getSharedPreferences("isCheckLogin", MODE_PRIVATE).getString("accessToken", null);
         Log.d("accessToken", token);
 
@@ -226,11 +245,11 @@ public class againNetHelper {
                         // Toast.makeText(context, String.valueOf(followComment.getList().size()), Toast.LENGTH_SHORT).show();
 
 
-                    }
-                });
+                   // }
+            //    });
 
 
-    }
+  //  }
     public void updateOss(String url, File file, final String contentType) throws IOException {
         final int[] code = new int[1];
 

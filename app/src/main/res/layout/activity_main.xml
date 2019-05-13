@@ -22,6 +22,22 @@
 
             android:textColor="@color/black"
             android:textSize="18sp"/>
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="6dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_out"
+            android:text="退出登录"
+            android:textColor="@color/red"/>
+        <View
+            android:layout_marginRight="6dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="25dp"
+            android:layout_width="55dp"
+            android:layout_height="1dp"
+            android:background="@color/red"/>
         <LinearLayout
             android:id="@+id/search_layout"
             android:background="@drawable/main_search_layout"

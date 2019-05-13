@@ -1,5 +1,6 @@
 package com.example.yangyang.demo.Activity;
 
+import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.yangyang.demo.R;
 import com.example.yangyang.demo.TestData.response.main.Student;
 import com.example.yangyang.demo.db.table.SearchHistory;
+import com.example.yangyang.demo.db.table.SearchHistory_Table;
 import com.example.yangyang.demo.widget.ContacterAdapter;
 import com.example.yangyang.demo.widget.SearchAdapter;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -37,6 +39,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Vi
 
     private RecyclerView recyclerView;
 
+    private String teacherId;
+
     private ProgressBar progressBar;
 
     private SearchAdapter adapter ;
@@ -51,13 +55,15 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         initWidget();
+        SharedPreferences sharedPreferences = getSharedPreferences("isCheckLogin",MODE_PRIVATE);
+        teacherId = sharedPreferences.getString("userId", null);
         list = (List<Student>) getIntent().getExtras().getSerializable("list");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter =  new SearchAdapter(result);
         recyclerView.setAdapter(adapter);
 
-         searchHistoryList= SQLite.select().from(SearchHistory.class)
+         searchHistoryList= SQLite.select().from(SearchHistory.class).where(SearchHistory_Table.teacherId.eq(teacherId))
                 .queryList();
         if (searchHistoryList.size() == 0){
 

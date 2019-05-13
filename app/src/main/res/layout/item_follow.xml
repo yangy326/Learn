@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:expandableTextView="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -25,6 +25,8 @@
             android:textSize="18sp"
             android:gravity="center"/>
         <LinearLayout
+            android:id="@+id/topbar"
+            android:layout_below="@id/txt_item_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp">
@@ -48,6 +50,7 @@
         </LinearLayout>
 
         <cn.carbs.android.expandabletextview.library.ExpandableTextView
+            android:layout_below="@id/topbar"
             android:id="@+id/expand_txt_item_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +71,7 @@
 
 
         <LinearLayout
+            android:layout_below="@id/expand_txt_item_comment"
             android:id="@+id/media"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,10 +131,10 @@
             android:layout_marginTop="15dp"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 
 
 
-</LinearLayout>
+</RelativeLayout>

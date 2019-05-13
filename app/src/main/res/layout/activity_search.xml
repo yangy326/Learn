@@ -16,8 +16,9 @@
 
             android:layout_marginLeft="18dp"
             android:background="@drawable/main_search_layout"
+            android:id="@+id/search_layout"
 
-            android:layout_width="295dp"
+            android:layout_width="280dp"
             android:layout_height="33dp"
             android:layout_marginTop="5dp"
             android:focusable="true"
@@ -49,6 +50,7 @@
 
         </LinearLayout>
         <TextView
+            android:layout_toRightOf="@id/search_layout"
             android:id="@+id/txt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,67 +80,73 @@
             android:text="最近"
             android:textSize="14sp"
             android:textColor="#FF9B9B9B"/>
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/txt_first"
-                android:layout_width="70dp"
-                android:layout_height="33dp"
-                android:layout_marginTop="22dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txt_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="22dp"
 
-                android:gravity="center"
-
-
-                android:text="课后跟进"
-                android:textSize="16sp"
-                android:textColor="#FF373737  "
-                android:background="@drawable/boder"/>
-            >
-            <TextView
-                android:layout_marginTop="22dp"
-                android:id="@+id/txt_second"
-                android:layout_width="70dp"
-                android:layout_height="33dp"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
+                    android:gravity="center"
 
 
+                    android:text="课后跟进"
+                    android:textSize="16sp"
+                    android:textColor="#FF373737  "
+                    android:background="@drawable/boder"/>
+                >
+                <TextView
+                    android:layout_marginTop="22dp"
+                    android:id="@+id/txt_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
 
-                android:text="课后跟进"
-                android:textSize="16sp"
-                android:textColor="#FF373737  "
-                android:background="@drawable/boder"/>
-            >
-            <TextView
-                android:layout_marginTop="22dp"
-                android:id="@+id/txt_third"
-                android:textSize="16sp"
-                android:textColor="#FF373737  "
-                android:layout_width="70dp"
-                android:layout_height="33dp"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
 
-                android:text="请假补课"
-                android:background="@drawable/boder"/>
 
-            <TextView
-                android:layout_marginTop="22dp"
-                android:id="@+id/txt_fourth"
-                android:textSize="16sp"
-                android:textColor="#FF373737  "
-                android:layout_width="70dp"
-                android:layout_height="33dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
+                    android:text="课后跟进"
+                    android:textSize="16sp"
+                    android:textColor="#FF373737  "
+                    android:background="@drawable/boder"/>
+                >
+                <TextView
+                    android:layout_marginTop="22dp"
+                    android:id="@+id/txt_third"
+                    android:textSize="16sp"
+                    android:textColor="#FF373737  "
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
 
-                android:background="@drawable/boder"
-                android:text="续费"/>
+                    android:text="请假补课"
+                    android:background="@drawable/boder"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_marginTop="22dp"
+                    android:id="@+id/txt_fourth"
+                    android:textSize="16sp"
+                    android:textColor="#FF373737  "
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+
+                    android:background="@drawable/boder"
+                    android:text="续费"/>
+
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

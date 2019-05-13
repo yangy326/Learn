@@ -11,11 +11,14 @@ public class MyApp extends Application {
 
     public static String BaseUrl = BuildConfig.BaseUrl;
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         //初始化DBFLOW
         FlowManager.init(this);
         deviceId = DeviceIdUtil.getDeviceId(this);
+
     }
 }

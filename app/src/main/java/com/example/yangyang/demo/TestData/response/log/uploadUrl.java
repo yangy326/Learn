@@ -1,11 +1,9 @@
 package com.example.yangyang.demo.TestData.response.log;
 
-public class AudioData {
-    private int code;
-
+public class uploadUrl {
     private String expireTime;
 
-    private boolean success ;
+
 
     private String  method;
 
@@ -15,13 +13,6 @@ public class AudioData {
 
     private String  contentType;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public String getExpireTime() {
         return expireTime;
@@ -29,14 +20,6 @@ public class AudioData {
 
     public void setExpireTime(String expireTime) {
         this.expireTime = expireTime;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getMethod() {

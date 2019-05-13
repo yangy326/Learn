@@ -9,7 +9,7 @@ public class RspLog {
 
     private boolean success ;
 
-    private AudioData data;
+    private Data data;
 
     public int getCode() {
         return code;
@@ -35,11 +35,11 @@ public class RspLog {
         this.success = success;
     }
 
-    public AudioData getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(AudioData data) {
+    public void setData(Data data) {
         this.data = data;
     }
 }

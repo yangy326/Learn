@@ -15,6 +15,9 @@ public class SearchHistory  extends BaseModel {
     int contentId;
 
     @Column
+    private String teacherId;
+
+    @Column
     private String name;
 
     @Column
@@ -86,6 +89,14 @@ public class SearchHistory  extends BaseModel {
 
     public void setTeacherGroup(Long teacherGroup) {
         this.teacherGroup = teacherGroup;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 
     public Student build(){

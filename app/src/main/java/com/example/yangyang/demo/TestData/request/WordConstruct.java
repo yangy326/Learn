@@ -18,7 +18,9 @@ public class WordConstruct {
 
     private String tag;
 
-    public WordConstruct(Integer userId, String userPhoneNumber, String userGroup, Integer teacherGroup, byte isConnected, Integer callDuration, String wordRecord, String tag) {
+    private String filename;
+
+    public WordConstruct(Integer userId, String userPhoneNumber, String userGroup, Integer teacherGroup, byte isConnected, Integer callDuration, String wordRecord, String tag, String filename) {
         this.userId = userId;
         this.userPhoneNumber = userPhoneNumber;
         this.userGroup = userGroup;
@@ -27,6 +29,7 @@ public class WordConstruct {
         this.callDuration = callDuration;
         this.wordRecord = wordRecord;
         this.tag = tag;
+        this.filename = filename;
     }
 
     public Integer getUserId() {
@@ -91,5 +94,13 @@ public class WordConstruct {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

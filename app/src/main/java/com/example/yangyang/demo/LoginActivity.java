@@ -1,22 +1,38 @@
 package com.example.yangyang.demo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.yangyang.demo.Activity.MainActivity;
@@ -37,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
     private Intent intent;
     private EditText CMS_account , CMS_password;
     private Button login;
+    private ImageView eyefill;
 
     private ProgressDialog dialog ;
     String[] permissions = new String[]{
@@ -53,11 +70,16 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
 
     int mRequestCode = 100;
+
+    private LinearLayout layout_login;
+
+    private boolean isPassword = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
+       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_login);
         dialog = new ProgressDialog(this);
         initPermission();
@@ -72,6 +94,10 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         initWidget();
 
         editSetHint();
+        setEditTextInhibitInputSpace(CMS_password);
+
+
+
 
 
 
@@ -83,6 +109,32 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
 
     }
+    private void controlKeyboardLayout(final View root, final View scrollToView) {
+        root.getViewTreeObserver().addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                //获取root在窗体的可视区域
+                root.getWindowVisibleDisplayFrame(rect);
+                //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)
+                int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+                //若不可视区域高度大于100，则键盘显示
+                if (rootInvisibleHeight > 100) {
+                    int[] location = new int[2];
+                    //获取scrollToView在窗体的坐标
+                    scrollToView.getLocationInWindow(location);
+                    //计算root滚动高度，使scrollToView在可见区域
+                    int srollHeight = (location[1] + scrollToView.getHeight()) - rect.bottom;
+                    root.scrollTo(0, srollHeight);
+                } else {
+                    //键盘隐藏
+                    root.scrollTo(0, 0);
+                }
+            }
+        });
+    }
+
+
     private void initPermission(){
 
         // 逐个判断是否还有未通过的权限
@@ -104,6 +156,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
 
 
+    @SuppressLint("WrongViewCast")
     private void initWidget(){
         CMS_account = (EditText)findViewById(R.id.edit_account);
 
@@ -111,7 +164,13 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
         login = (Button)findViewById(R.id.btn_login);
 
+        layout_login = (LinearLayout) findViewById(R.id.login_layout);
+
+        eyefill = (ImageView) findViewById(R.id.eyefill);
+
         login.setOnClickListener(this);
+
+        eyefill.setOnClickListener(this);
 
     }
     private void editSetHint(){
@@ -129,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         // 附加属性到文本
         s.setSpan(as, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置hint
-        CMS_password.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
+        CMS_password.setHint(new SpannedString(s)); // 一定要进行转换,否则属性会消失
     }
 
 
@@ -245,26 +304,60 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         //e10adc3949ba59abbe56e057f20f883e
         // lijiatong
-        String account = CMS_account.getText().toString().trim();
+        switch (v.getId()){
+            case R.id.btn_login:
+                String account = CMS_account.getText().toString().trim();
 
-        String password = CMS_password.getText().toString().trim();
+                String password = CMS_password.getText().toString().trim();
 
-        String finalPassword = null;
-        try {
-             finalPassword = Md5Util.md5Password(password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+                String finalPassword = null;
+                try {
+                    finalPassword = Md5Util.md5Password(password);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                netHelper.AccountHelper.login(account,finalPassword,MyApp.deviceId);
+                break;
+            case R.id.eyefill:
+                if (isPassword){
+                    CMS_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    isPassword = false;
+                    eyefill.setImageDrawable(getDrawable(R.drawable.eyeclose));
+                }
+                else {
+                    CMS_password.setInputType(InputType.TYPE_CLASS_TEXT |InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    isPassword = true;
+                    eyefill.setImageDrawable(getDrawable(R.drawable.eyeclosefill));
+
+                }
+                CMS_password.setSelection(CMS_password.getText().length());
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
         }
 
-
-        
-        netHelper.AccountHelper.login(account,finalPassword,MyApp.deviceId);
-
     }
+    public static void setEditTextInhibitInputSpace(EditText editText){
+        InputFilter filter=new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if(source.equals(" "))
+                    return "";
+                else return null;
+            }
+        };
+        editText.setFilters(new InputFilter[]{filter});
+    }
+
 
 
 

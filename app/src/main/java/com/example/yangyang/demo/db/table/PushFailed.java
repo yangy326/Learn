@@ -13,6 +13,9 @@ public class PushFailed extends BaseModel {
     private int id;
 
     @Column
+    private String TeacherId;
+
+    @Column
     private Integer userId;
 
     @Column
@@ -185,7 +188,15 @@ public class PushFailed extends BaseModel {
         this.status = status;
     }
 
+    public String getTeacherId() {
+        return TeacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        TeacherId = teacherId;
+    }
+
     public WordConstruct build(){
-        return new WordConstruct( userId,  userPhoneNumber, userGroup,  teacherGroup,  isConnected,  callDuration,  wordRecord,  tag);
+        return new WordConstruct( userId,  userPhoneNumber, userGroup,  teacherGroup,  isConnected,  callDuration,  wordRecord,  tag,filename);
     }
 }

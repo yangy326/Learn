@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,8 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
 
         viewHolder.time.setText(str);
         viewHolder.username.setText(followRecord.getTeacherName());
+        Log.d("sdafgsdgsdf", String.valueOf(followRecord.getIsConnected()));
+        Log.d("sdafgsdgsdf", String.valueOf(followRecord.getAudioUrl()));
         if (followRecord.getIsConnected() == 0){
 
 
@@ -157,6 +160,7 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
         viewHolder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("sdafgsdgsdf", String.valueOf(followRecord.getAudioUrl()));
                 played = true;
                 if (judegPosition < 0) {
                     judegPosition = i;

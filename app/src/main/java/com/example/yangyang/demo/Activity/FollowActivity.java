@@ -2,8 +2,8 @@ package com.example.yangyang.demo.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,26 +17,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.yangyang.demo.Callback.OnAudioCallback;
 import com.example.yangyang.demo.Callback.OnCompleteCallback;
 import com.example.yangyang.demo.Callback.OnLoadCallbackListener;
 import com.example.yangyang.demo.Callback.OnOssCallback;
 import com.example.yangyang.demo.Callback.OnWordCallback;
+import com.example.yangyang.demo.LoginActivity;
 import com.example.yangyang.demo.MyApp;
 import com.example.yangyang.demo.R;
 import com.example.yangyang.demo.TestData.request.WordConstruct;
 import com.example.yangyang.demo.TestData.response.log.RspLog;
-import com.example.yangyang.demo.TestData.response.log.WordData;
 import com.example.yangyang.demo.TestData.response.follow.FollowRsp;
 import com.example.yangyang.demo.TestData.response.main.Student;
-import com.example.yangyang.demo.Utils.DeviceIdUtil;
 import com.example.yangyang.demo.Utils.FileComparator;
 import com.example.yangyang.demo.Utils.GetAudioPathUtil;
 import com.example.yangyang.demo.db.table.PushFailed;
-import com.example.yangyang.demo.db.table.PushFailed_Table;
 import com.example.yangyang.demo.net.netHelper;
 import com.example.yangyang.demo.service.MyService;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class FollowActivity extends AppCompatActivity implements View.OnClickListener,OnLoadCallbackListener, OnWordCallback, OnCompleteCallback, OnOssCallback, OnAudioCallback {
+public class FollowActivity extends AppCompatActivity implements View.OnClickListener,OnLoadCallbackListener, OnWordCallback, OnCompleteCallback, OnOssCallback {
 
     private String BackLable;
 
@@ -68,13 +64,15 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
     private int recordId;
 
+    private  WordConstruct wordConstruct;
+
 
 
     private boolean connected;
 
     private int time , userId;
 
-    private String wordRecord,tag = "",userPhoneNumber ,fileName ;
+    private String wordRecord,tag = "",userPhoneNumber ,fileName ,uploadUrl ,  contentType;
 
 
     private String studentName ,group ,fileUrl;
@@ -99,7 +97,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
         netHelper.AccountHelper.setOnLoadCallbackListener(this);
         netHelper.AccountHelper.setOnWordCallback(this);
-        netHelper.AccountHelper.setOnAudioCallback(this);
+
         netHelper.AccountHelper.setOnOssCallback(this);
         netHelper.AccountHelper.setOnCompleteCallback(this);
         accountHelper= new netHelper.AccountHelper(this);
@@ -191,14 +189,14 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         button5 = (TextView) findViewById(R.id.btn_follow_goutong);
         button6 = (TextView) findViewById(R.id.btn_follow_qita);
         submit = (Button) findViewById(R.id.btn_follow_tijiao);
-        takeProgressBar = (ProgressBar)findViewById(R.id.take_progressBar);
-        openProgressBar = (ProgressBar)findViewById(R.id.open_progressBar);
+        takeProgressBar = (ProgressBar)findViewById(R.id.pgbar_follow_take);
+        openProgressBar = (ProgressBar)findViewById(R.id.pgbar_log_open);
 
         StudentName = (TextView) findViewById(R.id.txt_follow_studentname);
         ClassName = (TextView) findViewById(R.id.txt_follow_classname);
         StudentId = (TextView) findViewById(R.id.txt_follow_studentid);
         OpenClass = (TextView) findViewById(R.id.txt_follow_openclass);
-        CloseClass = (TextView) findViewById(R.id.txt_follow_closeclass);
+        CloseClass = (TextView) findViewById(R.id.txt_follow_takeclass);
 
         Comment = (EditText) findViewById(R.id.edit_follow_comment);
 
@@ -264,8 +262,16 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 else {
 
+                    if (connected){
+                        wordConstruct  = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag,fileName);
+                    }
+                    else {
+                        wordConstruct = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag,null);
+                    }
+                    accountHelper.addWord(MyApp.deviceId,wordConstruct);
 
-                    WordConstruct wordConstruct = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag);
+
+
                     /*PushFailed failedword = new PushFailed();
                     failedword.setUserId(wordConstruct.getUserId());
                     failedword.setCallDuration(wordConstruct.getCallDuration());
@@ -284,7 +290,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                         failedword.setType(1);
                     }
                     failedword.save();*/
-                    accountHelper.addWord(MyApp.deviceId,wordConstruct);
+
                 }
 
 
@@ -336,27 +342,68 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onLoadWordSuccess(Object o) {
+    public void onLoadWordSuccess(Object o) throws IOException {
+        RspLog rspLog = (RspLog) o;
+        if (rspLog.getCode() == 200){
+             uploadUrl = rspLog.getData().getUploadUrl().getUploadUrl() ;
 
-        WordData wordData = (WordData) o;
-        if (wordData.getCode() == 200){
-            if (connected){
-                recordId = wordData.getData();
+            fileUrl = rspLog.getData().getUploadUrl().getFileUrl();
+
+             contentType = rspLog.getData().getUploadUrl().getContentType();
+
+            recordId = rspLog.getData().getRecordId();
+
+            accountHelper.updateOss(uploadUrl,fileAudio,contentType);
 
 
-                accountHelper.updateAudio(MyApp.deviceId,fileName);
-            }
         }
 
     }
 
     @Override
     public void onLoadWordkFail(Object o) {
+        WordConstruct Construct = (WordConstruct) o;
+        PushFailed failedword = new PushFailed();
+        failedword.setUserId(Construct.getUserId());
+        failedword.setCallDuration(Construct.getCallDuration());
+        failedword.setTeacherGroup(Construct.getTeacherGroup());
+        failedword.setUserGroup(Construct.getUserGroup());
+        failedword.setUserPhoneNumber(Construct.getUserPhoneNumber());
+        failedword.setIsConnected(Construct.getIsConnected());
+        failedword.setTag(Construct.getTag());
+        failedword.setWordRecord(Construct.getWordRecord());
+        failedword.setType(1);
+        failedword.save();
+
 
 
 
 
         Toast.makeText(this, "上传文字Http失败", Toast.LENGTH_SHORT).show();
+        finish();
+
+    }
+
+    @Override
+    public void onLoadTokenFail() {
+        PushFailed failedword = new PushFailed();
+        failedword.setUserId(wordConstruct.getUserId());
+        failedword.setCallDuration(wordConstruct.getCallDuration());
+        failedword.setTeacherGroup(wordConstruct.getTeacherGroup());
+        failedword.setUserGroup(wordConstruct.getUserGroup());
+        failedword.setUserPhoneNumber(wordConstruct.getUserPhoneNumber());
+        failedword.setIsConnected(wordConstruct.getIsConnected());
+        failedword.setTag(wordConstruct.getTag());
+        failedword.setWordRecord(wordConstruct.getWordRecord());
+        failedword.setType(1);
+        failedword.save();
+        Toast.makeText(this, "账户不匹配，请重新登陆", Toast.LENGTH_SHORT).show();
+        SharedPreferences.Editor editor= getSharedPreferences("isCheckLogin",MODE_PRIVATE).edit();
+        editor.putString("accessToken",null);
+        editor.apply();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 
@@ -386,6 +433,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onLoadCompleteFail() {
         Toast.makeText(this, "最终上传Http失败", Toast.LENGTH_SHORT).show();
+        finish();
 
     }
 
@@ -398,31 +446,27 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onLoadOssFail() {
+        PushFailed failedword = new PushFailed();
+        failedword.setUserId(wordConstruct.getUserId());
+        failedword.setCallDuration(wordConstruct.getCallDuration());
+        failedword.setTeacherGroup(wordConstruct.getTeacherGroup());
+        failedword.setUserGroup(wordConstruct.getUserGroup());
+        failedword.setUserPhoneNumber(wordConstruct.getUserPhoneNumber());
+        failedword.setIsConnected(wordConstruct.getIsConnected());
+        failedword.setTag(wordConstruct.getTag());
+        failedword.setWordRecord(wordConstruct.getWordRecord());
+        failedword.setType(2);
+        failedword.setRecordId(recordId);
+        failedword.setFileUrl(fileUrl);
+        failedword.setUploadUrl(uploadUrl);
+        failedword.setContentType(contentType);
+        failedword.save();
         Toast.makeText(this, "上传阿里云Http失败", Toast.LENGTH_SHORT).show();
+        finish();
 
     }
 
-    @Override
-    public void onLoadAudioSuccess(Object o) throws IOException {
-        RspLog rspLog = (RspLog) o ;
 
-        String url = rspLog.getData().getUploadUrl() ;
-
-        fileUrl = rspLog.getData().getFileUrl();
-
-        String contentType = rspLog.getData().getContentType();
-        accountHelper.updateOss(url,fileAudio,contentType);
-
-    }
-
-    @Override
-    public void onLoadAudiokFail() {
-
-
-
-        Toast.makeText(this, "上传音频文件Http失败", Toast.LENGTH_SHORT).show();
-
-    }
 
     @Override
     protected void onStop() {

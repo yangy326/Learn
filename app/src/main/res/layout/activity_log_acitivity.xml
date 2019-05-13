@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#FFF1F1F1 "/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -55,6 +55,8 @@
             android:textColor="#FF000000"
             android:textFontWeight="18sp"/>
         <LinearLayout
+            android:id="@+id/log_name_layout"
+            android:layout_below="@id/txt_log_studentname"
             android:layout_marginTop="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -77,7 +79,8 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_below="@id/log_name_layout"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="23dp"
             android:layout_width="wrap_content"
@@ -88,9 +91,10 @@
             <TextView
                 android:id="@+id/txt_log_openclass"
 
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="也开课60"
+                android:text="已开课60"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
@@ -103,19 +107,22 @@
                 android:layout_height="9dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="9dp"
+                android:layout_toRightOf="@id/txt_log_openclass"
 
                 android:max="200"
                 android:progress="135"
-                android:progressDrawable="@drawable/progress_shape" />
+                android:progressDrawable="@drawable/progress_shape"
+               />
             <TextView
 
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="30dp"
                 android:id="@+id/txt_log_takeclass"
+                android:layout_toRightOf="@id/pgbar_log_open"
 
-                android:text="也开课60"
+                android:text="已开课60"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
@@ -126,25 +133,29 @@
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="80dp"
                 android:layout_height="9dp"
+                android:layout_toRightOf="@id/txt_log_takeclass"
                 android:layout_marginLeft="9dp"
                 android:layout_gravity="center"
                 android:id="@+id/pgbar_log_take"
                 android:max="200"
                 android:progress="135"
                 android:progressDrawable="@drawable/progress_shape"
+
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
         android:layout_marginLeft="81dp"
-        android:layout_marginRight="80dp">
+        android:layout_marginRight="80dp"
+        android:layout_gravity="center_horizontal"
+        >
         <ImageView
             android:id="@+id/img_log_write"
             android:layout_width="37dp"
@@ -156,9 +167,10 @@
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:src="@drawable/phone"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="81dp"
@@ -176,7 +188,7 @@
             android:text="打电话"
             android:textSize="13sp"
             android:textColor="#FF757575 "/>
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"

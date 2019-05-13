@@ -2,6 +2,7 @@ package com.example.yangyang.demo.widget;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,8 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.Date;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private boolean isdelete = false;
@@ -84,7 +87,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("isCheckLogin",MODE_PRIVATE);
+                String teacherId = sharedPreferences.getString("userId", null);
                 SearchHistory searchHistory = new SearchHistory();
+                searchHistory.setTeacherId(teacherId);
                 searchHistory.setGroup(student.getGroup());
                 searchHistory.setId(student.getId());
                 searchHistory.setName(student.getName());

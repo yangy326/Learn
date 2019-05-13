@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.yangyang.demo.Callback.OnAudioCallback;
 import com.example.yangyang.demo.Callback.OnCompleteCallback;
 import com.example.yangyang.demo.Callback.OnLoadCallbackListener;
 import com.example.yangyang.demo.Callback.OnOssCallback;
@@ -12,12 +11,10 @@ import com.example.yangyang.demo.Callback.OnWordCallback;
 import com.example.yangyang.demo.MyApp;
 import com.example.yangyang.demo.TestData.request.WordConstruct;
 import com.example.yangyang.demo.TestData.response.log.RspLog;
-import com.example.yangyang.demo.TestData.response.log.WordData;
 import com.example.yangyang.demo.TestData.response.follow.FollowRsp;
 import com.example.yangyang.demo.TestData.response.login.Data;
 import com.example.yangyang.demo.TestData.response.login.RspModele;
 import com.example.yangyang.demo.TestData.response.main.StudentResponse;
-import com.example.yangyang.demo.Utils.DeviceIdUtil;
 import com.example.yangyang.demo.net.netApi.ApiServer;
 
 import java.io.ByteArrayOutputStream;
@@ -25,12 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -65,7 +60,7 @@ public class netHelper {
 
         private static OnLoadCallbackListener onLoadCallbackListener;
 
-        private static OnAudioCallback onAudioCallback;
+
 
         private static OnOssCallback onOssCallback;
 
@@ -80,9 +75,7 @@ public class netHelper {
             AccountHelper.onOssCallback = onOssCallback;
         }
 
-        public static void setOnAudioCallback(OnAudioCallback onAudioCallback) {
-            AccountHelper.onAudioCallback = onAudioCallback;
-        }
+
 
         public static void setOnLoadCallbackListener(OnLoadCallbackListener onLoadCallbackListener) {
             AccountHelper.onLoadCallbackListener = onLoadCallbackListener;
@@ -148,7 +141,7 @@ public class netHelper {
         }
 
 
-        public void getStudent() {
+        public void getStudent(int page ,int size) {
             final String token = context.getSharedPreferences("isCheckLogin", MODE_PRIVATE).getString("accessToken", null);
             Log.d("accessToken", token);
 
@@ -183,7 +176,7 @@ public class netHelper {
                     .client(client)
                     .build();
             ApiServer apiServer = retrofit.create(ApiServer.class);
-            apiServer.getStudent(MyApp.deviceId)
+            apiServer.getStudent(MyApp.deviceId,page,size)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Action0() {
                         @Override
@@ -319,95 +312,7 @@ public class netHelper {
 
         }
 
-        public void updateAudio(String deviceId, String fileName) {
-            final String token = context.getSharedPreferences("isCheckLogin", MODE_PRIVATE).getString("accessToken", null);
-            Log.d("accessToken", token);
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request original = chain.request();
-
-                            Request request = original.newBuilder()
-                                    .addHeader("Authorization", token)
-                                    .method(original.method(), original.body())
-                                    .build();
-
-                            return chain.proceed(request);
-
-                        }
-                    })
-                    .connectTimeout(5, TimeUnit.SECONDS)
-                    .writeTimeout(5, TimeUnit.SECONDS)
-                    .readTimeout(5, TimeUnit.SECONDS)
-                    .build();
-
-
-            Retrofit retrofit = new Retrofit.Builder()
-
-
-                    .baseUrl(MyApp.BaseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .client(client)
-                    .build();
-            ApiServer apiServer = retrofit.create(ApiServer.class);
-            apiServer.updateAudio(deviceId, fileName)
-                    .subscribeOn(Schedulers.io())
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-
-
-                        }
-                    })
-
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<RspLog>() {
-                        @Override
-                        public void onCompleted() {
-
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            onAudioCallback.onLoadAudiokFail();
-
-
-                        }
-
-                        @Override
-                        public void onNext(RspLog rspLog) {
-                            try {
-                                onAudioCallback.onLoadAudioSuccess(rspLog);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            //Log.d("sdfasfdas", String.valueOf(followRsp.getData().getRecordVOS().size()));
-
-
-
-
-
-
-                          /*  try {
-                                Log.d("AccountHelper",String.valueOf(responseBody.string()));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }*/
-
-
-                            // Toast.makeText(context, String.valueOf(followComment.getList().size()), Toast.LENGTH_SHORT).show();
-
-
-                        }
-                    });
-
-
-        }
 
         public void updateOss(String url, File file, final String contentType) throws IOException {
             final int[] code = new int[1];
@@ -633,7 +538,7 @@ public class netHelper {
                     })
 
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<WordData>() {
+                    .subscribe(new Subscriber<RspLog>() {
                         @Override
                         public void onCompleted() {
 
@@ -649,17 +554,27 @@ public class netHelper {
                         }
 
                         @Override
-                        public void onNext(WordData wordData) {
-                            if (isConnected == 0){
-                                onCompleteCallback.onLoadCompleteSuccess();
+                        public void onNext(RspLog rspLog) {
+//                            try {
+//                               Log.d("asdfasdfda",rspLog.string());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+                            if (rspLog.getCode() == 200){
+                                if (isConnected == 0){
+                                    onCompleteCallback.onLoadCompleteSuccess();
+                                }
+                                else {
+                                    try {
+                                        onWordCallback.onLoadWordSuccess(rspLog);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
                             else {
-                                onWordCallback.onLoadWordSuccess(wordData);
+                                onWordCallback.onLoadTokenFail();
                             }
-
-
-
-
 
                         }
                     });
