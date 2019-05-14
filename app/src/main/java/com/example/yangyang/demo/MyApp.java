@@ -11,6 +11,8 @@ public class MyApp extends Application {
 
     public static String BaseUrl = BuildConfig.BaseUrl;
 
+    public static String phoneNumber ;
+
 
 
     @Override

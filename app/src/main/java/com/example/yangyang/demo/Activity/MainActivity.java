@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,8 +34,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,OnLoadCallbackListener {
 
-    private int page = 1 , size = 10;
-
     private RecyclerView recyclerView;
 
     private LinearLayout search;
@@ -47,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private static String UserId;
 
-    private int location = 0;
-
 
 
     ContacterAdapter adapter;
@@ -57,17 +52,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private List<Student> list = new ArrayList<>();
 
-    private List<Student> mlist = new ArrayList<>();
-
     private List<Student> newlist = new ArrayList<>();
 
-    private List<Student> mnewlist = new ArrayList<>();
+   // private List<Student> newlist = new ArrayList<>();
 
     private TextView signout;
 
     private static final int H_CODE_UPDATE = 1;
     private List<Student> mNewDatas;//增加一个变量暂存newList
-    /*private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -84,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     break;
             }
         }
-    };*/
+    };
 
 
 
@@ -116,7 +109,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
 
         accountHelper= new netHelper.AccountHelper(this);
-        accountHelper.getStudent(page,size);
+        accountHelper.getStudent();
+
+
         Intent intent = new Intent(this, UploadFailService.class);
         startService(intent);
 
@@ -129,18 +124,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         signout = (TextView)findViewById(R.id.sign_out);
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        recyclerView.addOnScrollListener(new FootScrollListener() {
-            @Override
-            void myLoad() {
-                adapter.setLoadstate(1);
-                Toast.makeText(MainActivity.this, "sdfasdf", Toast.LENGTH_SHORT).show();
-
-
-
-
-
-            }
-        });
 
 
         search = (LinearLayout) findViewById(R.id.search_layout);
@@ -155,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        accountHelper.getStudent(1,10);
+        accountHelper.getStudent();
 
 
 
@@ -221,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         else if (studentResponse.getCode() == 200){
             if (i == 0){
                 list = studentResponse.getList();
-
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 adapter =  new ContacterAdapter(list);
@@ -231,11 +213,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
             else {
                 newlist = studentResponse.getList();
-                list = newlist;
-                adapter.set(list);
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(MainActivity.this, "刷新成功", Toast.LENGTH_SHORT).show();
-                 /*new Thread(new Runnable() {
+
+
+
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
 
@@ -249,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
                     }
-                }).start();*/
+                }).start();
 
             }
 
@@ -277,33 +258,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Toast.makeText(this, "网络错误", Toast.LENGTH_SHORT).show();
 
     }
-    abstract class FootScrollListener extends RecyclerView.OnScrollListener{
-        private boolean isScrollUp=false;
-        @Override    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            /*newState表示当前滑动的状态        SCROLL_STATE_IDLE:不滑动        SCROLL_STATE_DRAGGING;滑动（手指在屏幕上）        SCROLL_STATE_SETTLING;滑动（手指移开屏幕）        */
-            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();        // 当不滑动时
-             if (newState == RecyclerView.SCROLL_STATE_IDLE) {            //返回最后一个完成可见视图位置
-                  int lastItemPosition = manager.findLastCompletelyVisibleItemPosition();
-                  int itemCount = manager.getItemCount();            // 判断是否滑动到了最后一个item，并且是向上滑动
-                  if (lastItemPosition == (itemCount - 1) && isScrollUp) {
-                      // 加载更多
-                        myLoad();
-                  }
-             }
-        }
-
-        @Override
-        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            isScrollUp = (dy > 0);
-        }
-        abstract void myLoad();
-    }
-
-
-
 
 
 }

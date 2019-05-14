@@ -60,10 +60,12 @@ public class UploadFailService extends Service implements Ossback, Wordback, Com
     public int onStartCommand(Intent intent, int flags, int startId) {
                 length = faileds.size();
                 if (length == 0){
+                    Toast.makeText(this, "不需要重传", Toast.LENGTH_SHORT).show();
                     stopSelf();
                 }
                 else {
                     doThis();
+                    Toast.makeText(this, "开始重传了", Toast.LENGTH_SHORT).show();
                  }
 
 
@@ -216,7 +218,7 @@ public class UploadFailService extends Service implements Ossback, Wordback, Com
 
             WordConstruct wordConstruct = pushFailed.build();
             if (faileds.get(i).getType() == 1){
-               helper.addWord(MyApp.deviceId,wordConstruct);
+               helper.addWord(MyApp.deviceId,fileName,wordConstruct);
             }
             else {
                 File file = new File(fileName);

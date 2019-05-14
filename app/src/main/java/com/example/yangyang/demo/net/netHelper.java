@@ -141,7 +141,7 @@ public class netHelper {
         }
 
 
-        public void getStudent(int page ,int size) {
+        public void getStudent() {
             final String token = context.getSharedPreferences("isCheckLogin", MODE_PRIVATE).getString("accessToken", null);
             Log.d("accessToken", token);
 
@@ -176,7 +176,7 @@ public class netHelper {
                     .client(client)
                     .build();
             ApiServer apiServer = retrofit.create(ApiServer.class);
-            apiServer.getStudent(MyApp.deviceId,page,size)
+            apiServer.getStudent(MyApp.deviceId)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Action0() {
                         @Override
@@ -455,7 +455,7 @@ public class netHelper {
                     .client(client)
                     .build();
             ApiServer apiServer = retrofit.create(ApiServer.class);
-            apiServer.updateCompelete("123", id, status, url)
+            apiServer.updateCompelete(deviceId, id, status, url)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Action0() {
                         @Override
@@ -490,7 +490,7 @@ public class netHelper {
 
 
         }
-        public  void addWord(String deviceId, final WordConstruct wordConstruct){
+        public  void addWord(String deviceId, String fileName ,final WordConstruct wordConstruct){
            final byte isConnected = wordConstruct.getIsConnected();
             final String token = context.getSharedPreferences("isCheckLogin",MODE_PRIVATE).getString("accessToken",null);
             Log.d("accessToken",token);
@@ -526,7 +526,7 @@ public class netHelper {
                     .client(client)
                     .build();
             ApiServer apiServer = retrofit.create(ApiServer.class);
-            apiServer.addWord(deviceId,wordConstruct)
+            apiServer.addWord(deviceId,fileName,wordConstruct)
                     .subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Action0() {
                         @Override

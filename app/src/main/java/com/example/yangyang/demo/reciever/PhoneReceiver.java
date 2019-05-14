@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.yangyang.demo.Activity.FollowActivity;
 
+import com.example.yangyang.demo.MyApp;
 import com.example.yangyang.demo.service.MyService;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.provider.CallLog.Calls.OUTGOING_TYPE;
+
 
 
 public class PhoneReceiver extends BroadcastReceiver {
@@ -51,10 +53,8 @@ public class PhoneReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        if (count == 0){
-            number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-        }
-        count ++;
+
+
 
         //Log.d("CALL_STATE_RINGING", intent.getExtras().getString("phoneNumber"));
         //Log.d("CALL_STATE_RINGING", String.valueOf(intent.getExtras().getInt("userId")));
@@ -115,8 +115,8 @@ public class PhoneReceiver extends BroadcastReceiver {
                             Toast.makeText(context, "请允许应用读取通话日志", Toast.LENGTH_LONG).show();
 
                         }
-                        Log.d("CALL_STATE_sdfRINGING", number);
-                        final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[]{CallLog.Calls.NUMBER, CallLog.Calls.TYPE, CallLog.Calls.DURATION, CallLog.Calls.DATE}, CallLog.Calls.NUMBER + "=? and " + CallLog.Calls.TYPE + "= ?", new String[]{number, String.valueOf(OUTGOING_TYPE)}, CallLog.Calls.DEFAULT_SORT_ORDER);
+
+                        final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[]{CallLog.Calls.NUMBER, CallLog.Calls.TYPE, CallLog.Calls.DURATION, CallLog.Calls.DATE}, CallLog.Calls.NUMBER + "=? and " + CallLog.Calls.TYPE + "= ?", new String[]{MyApp.phoneNumber, String.valueOf(OUTGOING_TYPE)}, CallLog.Calls.DEFAULT_SORT_ORDER);
 
                         if (cursor.moveToFirst()) {
                             int durationIndex = cursor.getColumnIndex(CallLog.Calls.DURATION);
@@ -134,7 +134,7 @@ public class PhoneReceiver extends BroadcastReceiver {
 
                         Callstate = false;
                         Calllaststate = false ;
-                        isConnected = false;
+
                         isSend =false;
                         count = 0;
                         Log.d("dsfsadf","here");

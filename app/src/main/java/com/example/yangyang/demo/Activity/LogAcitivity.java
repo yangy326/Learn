@@ -173,6 +173,7 @@ public class LogAcitivity extends AppCompatActivity implements OnLoadCallbackLis
 
                 intent3.putExtras(bundle);
                 startService(intent3);
+                MyApp.phoneNumber = phone;
 
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_CALL);
@@ -182,6 +183,7 @@ public class LogAcitivity extends AppCompatActivity implements OnLoadCallbackLis
             case R.id.img_log_write:
                 Intent intent1 = new Intent(this,FollowActivity.class);
                 Bundle bundle1 = new Bundle();
+                bundle1.putBoolean("isLog",true);
                 bundle1.putInt("userId",id);
                 bundle1.putString("group",Class);
                 bundle1.putString("studentName",name);

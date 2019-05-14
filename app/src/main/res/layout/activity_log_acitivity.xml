@@ -41,7 +41,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:orientation="vertical"
+
         android:background="@drawable/follow_shadow">
 
         <TextView
@@ -53,7 +53,8 @@
             android:text="宋智孝"
             android:textSize="18sp"
             android:textColor="#FF000000"
-            android:textFontWeight="18sp"/>
+            android:textStyle="bold"
+           />
         <LinearLayout
             android:id="@+id/log_name_layout"
             android:layout_below="@id/txt_log_studentname"
@@ -78,7 +79,6 @@
                 android:layout_marginLeft="12dp"/>
 
         </LinearLayout>
-
         <RelativeLayout
             android:layout_below="@id/log_name_layout"
             android:layout_marginLeft="15dp"
@@ -94,13 +94,14 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已开课60"
+                android:text="已开课0"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
                 />
 
             <ProgressBar
+
                 android:id="@+id/pgbar_log_open"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="80dp"
@@ -110,9 +111,9 @@
                 android:layout_toRightOf="@id/txt_log_openclass"
 
                 android:max="200"
-                android:progress="135"
+                android:progress="0"
                 android:progressDrawable="@drawable/progress_shape"
-               />
+                />
             <TextView
 
 
@@ -122,7 +123,7 @@
                 android:id="@+id/txt_log_takeclass"
                 android:layout_toRightOf="@id/pgbar_log_open"
 
-                android:text="已开课60"
+                android:text="已消课0"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
@@ -138,12 +139,17 @@
                 android:layout_gravity="center"
                 android:id="@+id/pgbar_log_take"
                 android:max="200"
-                android:progress="135"
+                android:progress="0"
                 android:progressDrawable="@drawable/progress_shape"
 
                 />
 
         </RelativeLayout>
+
+
+
+
+
 
 
 

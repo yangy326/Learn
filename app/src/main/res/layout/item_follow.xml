@@ -23,7 +23,8 @@
             android:text="课后跟进"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textStyle="bold"/>
         <LinearLayout
             android:id="@+id/topbar"
             android:layout_below="@id/txt_item_label"
@@ -81,7 +82,7 @@
                 android:id="@+id/img_item_play"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:src="@drawable/play" />
+                android:src="@drawable/pause" />
 
             <TextView
                 android:id="@+id/txt_audio_time"
@@ -125,6 +126,7 @@
 
 
         <View
+            android:layout_below="@id/media"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#FFF1F1F1 "

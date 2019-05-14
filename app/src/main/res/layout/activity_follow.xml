@@ -11,13 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/white">
-        <ImageView
-            android:id="@+id/img_follow_close"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:src="@drawable/back"
-            android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +46,8 @@
             android:text="宋智孝"
             android:textSize="18sp"
             android:textColor="#FF000000"
-            android:textFontWeight="18sp"/>
+            android:textStyle="bold"
+            />
         <LinearLayout
             android:id="@+id/log_name_layout"
             android:layout_below="@id/txt_follow_studentname"
@@ -93,7 +88,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已开课60"
+                android:text="已开课0"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
@@ -110,7 +105,7 @@
                 android:layout_toRightOf="@id/txt_follow_openclass"
 
                 android:max="200"
-                android:progress="135"
+                android:progress="0"
                 android:progressDrawable="@drawable/progress_shape"
                 />
             <TextView
@@ -122,7 +117,7 @@
                 android:id="@+id/txt_follow_takeclass"
                 android:layout_toRightOf="@id/pgbar_follow_open"
 
-                android:text="已开课60"
+                android:text="已消课0"
                 android:textColor="#FF757575 "
                 android:textSize="11sp"
 
@@ -138,7 +133,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/pgbar_follow_take"
                 android:max="200"
-                android:progress="135"
+                android:progress="0"
                 android:progressDrawable="@drawable/progress_shape"
 
                 />
@@ -279,6 +274,7 @@
         android:layout_marginTop="17dp">
 
         <EditText
+            android:maxLength="150"
             android:id="@+id/edit_follow_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

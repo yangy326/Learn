@@ -1,10 +1,13 @@
 package com.example.yangyang.demo.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -66,6 +69,8 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
     private  WordConstruct wordConstruct;
 
+    private boolean isLog ;
+
 
 
     private boolean connected;
@@ -82,6 +87,8 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     private byte isConnected;
 
     netHelper.AccountHelper accountHelper;
+
+    String teacherId;
 
 
 
@@ -101,11 +108,13 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         netHelper.AccountHelper.setOnOssCallback(this);
         netHelper.AccountHelper.setOnCompleteCallback(this);
         accountHelper= new netHelper.AccountHelper(this);
+        SharedPreferences sharedPreferences = getSharedPreferences("isCheckLogin",MODE_PRIVATE);
+         teacherId= sharedPreferences.getString("userId",null);
 
 
 
 
-
+        isLog = getIntent().getExtras().getBoolean("isLog");
         studentName = getIntent().getExtras().getString("studentName");
         userId = getIntent().getExtras().getInt("userId");
         teacherGroup = (int) getIntent().getExtras().getLong("teacherGroup");
@@ -120,8 +129,9 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         Toast.makeText(this, String.valueOf(connected), Toast.LENGTH_SHORT).show();
         if (connected){
             isConnected = 1;
+            File parent = Environment.getExternalStorageDirectory();
 
-            File child = new File(GetAudioPathUtil.getAudioPath());
+            File child = new File(parent,"MIUI/sound_recorder/call_rec");
             File[] files = child.listFiles();
 
             List<File> fileList = new ArrayList<File>();
@@ -129,7 +139,9 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                 fileList.add(files[i]);
             }
             Collections.sort(fileList, new FileComparator());
-            fileName = fileList.get(0).getName();
+
+            fileName = fileList.get(0).getPath();
+
             fileAudio = fileList.get(0);
         }
         else {
@@ -190,7 +202,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         button6 = (TextView) findViewById(R.id.btn_follow_qita);
         submit = (Button) findViewById(R.id.btn_follow_tijiao);
         takeProgressBar = (ProgressBar)findViewById(R.id.pgbar_follow_take);
-        openProgressBar = (ProgressBar)findViewById(R.id.pgbar_log_open);
+        openProgressBar = (ProgressBar)findViewById(R.id.pgbar_follow_open);
 
         StudentName = (TextView) findViewById(R.id.txt_follow_studentname);
         ClassName = (TextView) findViewById(R.id.txt_follow_classname);
@@ -200,7 +212,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
         Comment = (EditText) findViewById(R.id.edit_follow_comment);
 
-        close = (ImageView)findViewById(R.id.img_follow_close);
+
 
 
         button2.setOnClickListener(this);
@@ -210,7 +222,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         button6.setOnClickListener(this);
         button1.setOnClickListener(this);
         submit.setOnClickListener(this);
-        close.setOnClickListener(this);
+
 
 
     }
@@ -225,50 +237,65 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn_follow_afterclass:
                 tag = LabelChange(button1);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_qingjia:
                 tag = LabelChange(button2);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_xufei:
                 tag = LabelChange(button3);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_shengji:
                 tag = LabelChange(button4);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_goutong:
                 tag = LabelChange(button5);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_qita:
                 tag = LabelChange(button6);
-                Toast.makeText(this, BackLable, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.btn_follow_tijiao:
                 wordRecord = Comment.getText().toString().trim();
                 Log.d("sadfsadfsdaf",wordRecord);
+                if (isLog){
+                    wordConstruct = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag,null);
+                    accountHelper.addWord(MyApp.deviceId,fileName,wordConstruct);
 
-                if (tag.isEmpty()  && wordRecord.isEmpty()){
-                    Toast.makeText(this, "请填写标签与记录", Toast.LENGTH_SHORT).show();
-                }
-                else if(!tag.isEmpty() && wordRecord.isEmpty()){
-                    Toast.makeText(this, "别忘记写记录了呀", Toast.LENGTH_SHORT).show();
-                }
-                else if(tag.isEmpty() && !wordRecord.isEmpty()){
-                    Toast.makeText(this, "你怎么能忘记标签了", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
                     if (connected){
                         wordConstruct  = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag,fileName);
+                        accountHelper.addWord(MyApp.deviceId,fileName,wordConstruct);
                     }
                     else {
-                        wordConstruct = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,wordRecord,tag,null);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                        dialog.setTitle("重要");
+                        dialog.setMessage("用户未接听，你所上传的文字无效");
+                        dialog.setCancelable(false);
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                wordConstruct = new WordConstruct(userId,userPhoneNumber,group,teacherGroup,isConnected,time,null,"用户未接听",null);
+                                accountHelper.addWord(MyApp.deviceId,fileName,wordConstruct);
+
+                            }
+                        });
+                        dialog.show();
+
                     }
-                    accountHelper.addWord(MyApp.deviceId,wordConstruct);
+                }
+                submit.setEnabled(false);
+
+
+
+
+
+
 
 
 
@@ -291,7 +318,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     failedword.save();*/
 
-                }
+
 
 
 
@@ -299,9 +326,6 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
 
                 break;
-            case R.id.img_follow_close:
-                 finish();
-                 break;
 
         }
 
@@ -362,16 +386,19 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onLoadWordkFail(Object o) {
+
         WordConstruct Construct = (WordConstruct) o;
         PushFailed failedword = new PushFailed();
-        failedword.setUserId(Construct.getUserId());
-        failedword.setCallDuration(Construct.getCallDuration());
-        failedword.setTeacherGroup(Construct.getTeacherGroup());
-        failedword.setUserGroup(Construct.getUserGroup());
-        failedword.setUserPhoneNumber(Construct.getUserPhoneNumber());
-        failedword.setIsConnected(Construct.getIsConnected());
-        failedword.setTag(Construct.getTag());
-        failedword.setWordRecord(Construct.getWordRecord());
+        failedword.setTeacherId(teacherId);
+        failedword.setUserId(wordConstruct.getUserId());
+        failedword.setCallDuration(wordConstruct.getCallDuration());
+        failedword.setTeacherGroup(wordConstruct.getTeacherGroup());
+        failedword.setUserGroup(wordConstruct.getUserGroup());
+        failedword.setUserPhoneNumber(wordConstruct.getUserPhoneNumber());
+        failedword.setIsConnected(wordConstruct.getIsConnected());
+        failedword.setTag(wordConstruct.getTag());
+        failedword.setFilename(wordConstruct.getFilename());
+        failedword.setWordRecord(wordConstruct.getWordRecord());
         failedword.setType(1);
         failedword.save();
 
@@ -387,6 +414,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onLoadTokenFail() {
         PushFailed failedword = new PushFailed();
+        failedword.setTeacherId(teacherId);
         failedword.setUserId(wordConstruct.getUserId());
         failedword.setCallDuration(wordConstruct.getCallDuration());
         failedword.setTeacherGroup(wordConstruct.getTeacherGroup());
@@ -446,7 +474,9 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onLoadOssFail() {
+
         PushFailed failedword = new PushFailed();
+        failedword.setTeacherId(teacherId);
         failedword.setUserId(wordConstruct.getUserId());
         failedword.setCallDuration(wordConstruct.getCallDuration());
         failedword.setTeacherGroup(wordConstruct.getTeacherGroup());

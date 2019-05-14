@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yangyang.demo.Activity.LogAcitivity;
+import com.example.yangyang.demo.MyApp;
 import com.example.yangyang.demo.R;
 import com.example.yangyang.demo.TestData.response.main.Student;
 import com.example.yangyang.demo.db.table.SearchHistory;
@@ -73,8 +74,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         if (student.getRecentlyConnect() == 0){
             viewHolder.ContactTime.setText("未联系过");
+            viewHolder.ContactTime.setTextColor(viewHolder.ContactTime.getContext().getResources().getColor(R.color.red));
         }
         else {
+            viewHolder.ContactTime.setTextColor(0xFF757575);
             int days = transformDays(student.getRecentlyConnect()) ;
             if (days == 0){
                 viewHolder.ContactTime.setText("最近联系时间 今天");
@@ -162,6 +165,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 bundle.putString("studentName",student.getName());
                 bundle.putString("userPhoneNumber",student.getPhoneNumber());
                 bundle.putLong("teacherGroup",student.getTeacherGroup());
+                MyApp.phoneNumber = student.getPhoneNumber();
 
                 intent3.putExtras(bundle);
                 v.getContext().startService(intent3);

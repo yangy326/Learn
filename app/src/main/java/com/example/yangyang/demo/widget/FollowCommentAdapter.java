@@ -43,7 +43,7 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
 
     private int judegPosition = -1;
 
-    private ImageView lastImage;
+    private ViewHolder lastviewHolder;
 
 
 
@@ -111,42 +111,35 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
         Log.d("sdafgsdgsdf", String.valueOf(followRecord.getIsConnected()));
         Log.d("sdafgsdgsdf", String.valueOf(followRecord.getAudioUrl()));
         if (followRecord.getIsConnected() == 0){
-
+            viewHolder.media.setVisibility(View.GONE);
 
             if (followRecord.getTag() != null){
                 viewHolder.label.setText(followRecord.getTag());
-                viewHolder.comment.setText(followRecord.getWordRecord());
-                viewHolder.media.setVisibility(View.GONE);
-
-
-            }
-            else {
-                viewHolder.comment.setText("用户未接听");
-                viewHolder.processtime.setVisibility(View.GONE);
-                viewHolder.media.setVisibility(View.GONE);
+           }
+            if (followRecord.getTag() == null){
                 viewHolder.label.setVisibility(View.GONE);
-
             }
-
-
-
+            if (followRecord.getWordRecord() == null){
+                viewHolder.comment.setVisibility(View.GONE);
+            }
+            if (followRecord.getWordRecord() != null){
+                viewHolder.comment.setText(followRecord.getWordRecord());
+            }
 
 
         }
         else {
             if (followRecord.getTag() != null){
                 viewHolder.label.setText(followRecord.getTag());
-                viewHolder.comment.setText(followRecord.getWordRecord());
-
-
-
             }
-            else {
-
-                viewHolder.processtime.setVisibility(View.GONE);
-
+            if (followRecord.getTag() == null){
                 viewHolder.label.setVisibility(View.GONE);
-
+            }
+            if (followRecord.getWordRecord() == null){
+                viewHolder.comment.setVisibility(View.GONE);
+            }
+            if (followRecord.getWordRecord() != null){
+                viewHolder.comment.setText(followRecord.getWordRecord());
             }
 
 
@@ -170,17 +163,21 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
 
                     mviewHolder = viewHolder;
                     isplay = true;
-                    viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.pause));
-                    lastImage = viewHolder.play;
+                    viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.play));
+
 
                 } else {
                     if (judegPosition != i) {
-                        lastImage.setImageDrawable(context.getResources().getDrawable(R.drawable.play));
+
+                        mviewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.pause));
+                        mviewHolder.voice.setProgress(0);
+                        mviewHolder.alltime.setText("00:00");
+                        mviewHolder.audiotime.setText("00:00");
                         musicControl.reset(followRecord.getAudioUrl());
                         mviewHolder = viewHolder;
                         isplay = true;
-                        viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.pause));
-                        lastImage = viewHolder.play;
+                        viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.play));
+
                         judegPosition = i;
 
 
@@ -188,13 +185,13 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
 
                         if (isplay) {
                             musicControl.pause();
-                            viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.play));
+                            viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.pause));
                             isplay = false;
 
 
                         } else {
                             musicControl.restart();
-                            viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.pause));
+                            viewHolder.play.setImageDrawable(context.getResources().getDrawable(R.drawable.play));
                             isplay = true;
 
                         }

@@ -3,6 +3,7 @@ package com.example.yangyang.demo.service;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -30,6 +31,7 @@ public class MyService extends Service {
         phoneReceiver = new PhoneReceiver();
         registerReceiver(phoneReceiver, intentfilter);
 
+
     }
 
     @Override
@@ -41,16 +43,19 @@ public class MyService extends Service {
             group = intent.getExtras().getString("group");
             userPhoneNumber = intent.getExtras().getString("userPhoneNumber");
             teacherGroup = intent.getExtras().getLong("teacherGroup");
+
          }else {
             time = intent.getExtras().getInt("time");
             isConnected = intent.getExtras().getBoolean("isConnected");
             Intent toFollow = new Intent(this,FollowActivity.class);
+            toFollow.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Bundle bundle = new Bundle();
             bundle.putInt("userId",userId);
             bundle.putString("studentName",studentName);
             bundle.putString("group",group);
             bundle.putBoolean("isConnected",isConnected);
             bundle.putInt("time",time);
+            bundle.putBoolean("isLog",false);
             bundle.putString("userPhoneNumber",userPhoneNumber);
             bundle.putLong("teacherGroup",teacherGroup);
             toFollow.putExtras(bundle);

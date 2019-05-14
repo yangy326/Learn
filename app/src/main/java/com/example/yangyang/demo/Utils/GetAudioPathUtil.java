@@ -11,7 +11,7 @@ public class GetAudioPathUtil {
         String brand = android.os.Build.BRAND;
         switch (brand){
             case "HUAWEI":
-                child = new File(parent,"record");
+                child = new File(parent,"Sounds/CallRecord");
                 break;
             case "XIAOMI":
                 child = new File(parent,"MIUI/sound_recorder/call_rec");

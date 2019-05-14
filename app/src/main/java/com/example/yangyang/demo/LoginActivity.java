@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         initWidget();
 
         editSetHint();
-        setEditTextInhibitInputSpace(CMS_password);
 
 
 
@@ -189,6 +188,8 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         s.setSpan(as, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         // 设置hint
         CMS_password.setHint(new SpannedString(s)); // 一定要进行转换,否则属性会消失
+
+        setEditTextInhibitInputSpace(CMS_password);
     }
 
 
@@ -226,6 +227,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
         dialog.cancel();
         RspModele<Data> rspModele = (RspModele<Data>) o;
+        login.setEnabled(true);
 
         int code = rspModele.getCode();
         switch (code){
@@ -244,6 +246,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
                 break;
             case 601:
                 Toast.makeText(this, "账号不存在呀", Toast.LENGTH_SHORT).show();
+
                 break;
             case 603:
                 Toast.makeText(this, "密码错误呀", Toast.LENGTH_SHORT).show();
@@ -273,8 +276,25 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
         dialog.cancel();
         Toast.makeText(this, "当前网络不佳呀", Toast.LENGTH_SHORT).show();
+        login.setEnabled(true);
 
     }
+    public static void setEditTextInhibitInputSpace(EditText editText){
+        InputFilter filter=new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if(source.equals(" ")){
+                    return "";
+                }
+                else{
+                    return null;
+                }
+
+            }
+        };
+        editText.setFilters(new InputFilter[]{filter});
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -325,6 +345,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
 
                 netHelper.AccountHelper.login(account,finalPassword,MyApp.deviceId);
+                login.setEnabled(false);
                 break;
             case R.id.eyefill:
                 if (isPassword){
@@ -346,18 +367,6 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
         }
 
     }
-    public static void setEditTextInhibitInputSpace(EditText editText){
-        InputFilter filter=new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if(source.equals(" "))
-                    return "";
-                else return null;
-            }
-        };
-        editText.setFilters(new InputFilter[]{filter});
-    }
-
 
 
 

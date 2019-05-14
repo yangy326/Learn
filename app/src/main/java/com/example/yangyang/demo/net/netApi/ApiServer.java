@@ -25,13 +25,13 @@ public interface ApiServer {
 
 
     @GET("v1/call/callrecord")
-    rx.Observable<StudentResponse> getStudent(@Query("deviceId") String deviceId,@Query("page") int page,@Query("size") int size);
+    rx.Observable<StudentResponse> getStudent(@Query("deviceId") String deviceId);
 
     @POST("/v1/call/callrecorddetails")
     rx.Observable<FollowRsp> getFollow(@Query("deviceId") String deviceId, @Query("studentId") Integer studentId, @Query("studentName") String studentName, @Query("studentGroup") String studentGroup);
 
     @POST("/v1/call/callrecord/add")
-    rx.Observable<RspLog> addWord(@Query("deviceId") String deviceId, @Body WordConstruct wordConstruct);
+    rx.Observable<RspLog> addWord(@Query("deviceId") String deviceId,@Query("fileName") String fileName, @Body WordConstruct wordConstruct);
 
 
 
