@@ -110,42 +110,51 @@ public class FollowCommentAdapter extends RecyclerView.Adapter<ViewHolder> imple
         viewHolder.username.setText(followRecord.getTeacherName());
         Log.d("sdafgsdgsdf", String.valueOf(followRecord.getIsConnected()));
         Log.d("sdafgsdgsdf", String.valueOf(followRecord.getAudioUrl()));
-        if (followRecord.getIsConnected() == 0){
+        if (followRecord.getAudioStatus() == 1){
             viewHolder.media.setVisibility(View.GONE);
+            viewHolder.comment.setVisibility(View.GONE);
+            viewHolder.label.setText("用户未上传成功");
 
-            if (followRecord.getTag() != null){
-                viewHolder.label.setText(followRecord.getTag());
-           }
-            if (followRecord.getTag() == null){
-                viewHolder.label.setVisibility(View.GONE);
-            }
-            if (followRecord.getWordRecord() == null){
-                viewHolder.comment.setVisibility(View.GONE);
-            }
-            if (followRecord.getWordRecord() != null){
-                viewHolder.comment.setText(followRecord.getWordRecord());
-            }
+        }else {
+            if (followRecord.getIsConnected() == 0){
+                viewHolder.media.setVisibility(View.GONE);
 
+                if (followRecord.getTag() != null){
+                    viewHolder.label.setText(followRecord.getTag());
+                }
+                if (followRecord.getTag() == null){
+                    viewHolder.label.setVisibility(View.GONE);
+                }
+                if (followRecord.getWordRecord() == null){
+                    viewHolder.comment.setVisibility(View.GONE);
+                }
+                if (followRecord.getWordRecord() != null){
+                    viewHolder.comment.setText(followRecord.getWordRecord());
+                }
+
+
+            }
+            else {
+                if (followRecord.getTag() != null){
+                    viewHolder.label.setText(followRecord.getTag());
+                }
+                if (followRecord.getTag() == null){
+                    viewHolder.label.setVisibility(View.GONE);
+                }
+                if (followRecord.getWordRecord() == null){
+                    viewHolder.comment.setVisibility(View.GONE);
+                }
+                if (followRecord.getWordRecord() != null){
+                    viewHolder.comment.setText(followRecord.getWordRecord());
+                }
+
+
+
+
+            }
 
         }
-        else {
-            if (followRecord.getTag() != null){
-                viewHolder.label.setText(followRecord.getTag());
-            }
-            if (followRecord.getTag() == null){
-                viewHolder.label.setVisibility(View.GONE);
-            }
-            if (followRecord.getWordRecord() == null){
-                viewHolder.comment.setVisibility(View.GONE);
-            }
-            if (followRecord.getWordRecord() != null){
-                viewHolder.comment.setText(followRecord.getWordRecord());
-            }
 
-
-
-
-        }
         //viewHolder.comment.setText("天青色等烟雨而我在等你天青色等烟雨而我在等你天青色等烟雨而我在等你天青色等烟雨而我在等你天青色等烟雨而我在等你天青色等烟雨而我在等你");
 
         //viewHolder.label.setVisibility(View.GONE);

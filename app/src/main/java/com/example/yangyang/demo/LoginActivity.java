@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
     int mRequestCode = 100;
 
-    private LinearLayout layout_login;
+    private FrameLayout rootview;
 
     private boolean isPassword = true;
     @Override
@@ -157,19 +157,28 @@ public class LoginActivity extends AppCompatActivity implements OnLoadCallbackLi
 
     @SuppressLint("WrongViewCast")
     private void initWidget(){
+
+        rootview = (FrameLayout)findViewById(R.id.rootView);
         CMS_account = (EditText)findViewById(R.id.edit_account);
 
         CMS_password = (EditText)findViewById(R.id.edit_password);
 
         login = (Button)findViewById(R.id.btn_login);
 
-        layout_login = (LinearLayout) findViewById(R.id.login_layout);
+
 
         eyefill = (ImageView) findViewById(R.id.eyefill);
 
         login.setOnClickListener(this);
 
         eyefill.setOnClickListener(this);
+        rootview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
     }
     private void editSetHint(){

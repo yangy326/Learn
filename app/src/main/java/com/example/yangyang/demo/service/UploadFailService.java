@@ -113,13 +113,14 @@ public class UploadFailService extends Service implements Ossback, Wordback, Com
 
             recordId = rspLog.getData().getRecordId();
 
-            recordId = rspLog.getData().getRecordId();
+
             firstorder = rspLog.getData().getRecordId();
 
             faileds.get(i).setUploadUrl(uploadUrl);
             faileds.get(i).setRecordId(recordId);
             faileds.get(i).setFileUrl(fileUrl);
             faileds.get(i).setContentType(contentType);
+            faileds.get(i).setType(2);
             File fileAudio = new File(fileName);
 
             try {
@@ -206,9 +207,24 @@ public class UploadFailService extends Service implements Ossback, Wordback, Com
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (faileds.size() != 0){
+            SQLite.update(PushFailed.class)
+                    .set(PushFailed_Table.contentType.eq(faileds.get(0).getContentType()),
+                            PushFailed_Table.uploadUrl.eq(faileds.get(0).getUploadUrl()),
+                            PushFailed_Table.fileUrl.eq(faileds.get(0).getFileUrl()),
+                            PushFailed_Table.type.eq(faileds.get(0).getType()),
+                            PushFailed_Table.recordId.eq(faileds.get(0).getRecordId()))
 
+                    .where(PushFailed_Table.id.eq(faileds.get(0).getId()))
+                    .execute();
 
-  private void doThis(){
+        }
+    }
+
+    private void doThis(){
 
             PushFailed pushFailed = faileds.get(i);
             uploadUrl = pushFailed.getUploadUrl();

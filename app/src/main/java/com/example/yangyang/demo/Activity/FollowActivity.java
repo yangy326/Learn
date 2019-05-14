@@ -422,6 +422,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         failedword.setUserPhoneNumber(wordConstruct.getUserPhoneNumber());
         failedword.setIsConnected(wordConstruct.getIsConnected());
         failedword.setTag(wordConstruct.getTag());
+        failedword.setFilename(wordConstruct.getFilename());
         failedword.setWordRecord(wordConstruct.getWordRecord());
         failedword.setType(1);
         failedword.save();
@@ -485,6 +486,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         failedword.setIsConnected(wordConstruct.getIsConnected());
         failedword.setTag(wordConstruct.getTag());
         failedword.setWordRecord(wordConstruct.getWordRecord());
+        failedword.setFilename(wordConstruct.getFilename());
         failedword.setType(2);
         failedword.setRecordId(recordId);
         failedword.setFileUrl(fileUrl);

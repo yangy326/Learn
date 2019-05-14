@@ -7,7 +7,9 @@
     tools:context=".LoginActivity"
     android:id="@+id/rootView"
     android:background="@color/white"
+
     >
+
     <ImageView
         android:layout_width="54dp"
         android:layout_height="54dp"
